@@ -35,18 +35,18 @@ class NameLoadTest {
     void checkNoEqualSymbol() {
         NameLoad nameLoad = new NameLoad();
         String name = "key:value";
-        assertThatThrownBy(()-> nameLoad.parse(name))
+        assertThatThrownBy(() -> nameLoad.parse(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageMatching("^.+")
                 .hasMessageContaining(name)
-                .hasMessageContaining( "name: key:value does not contain the symbol '='");
+                .hasMessageContaining("name: key:value does not contain the symbol '='");
     }
 
     @Test
     void checkNoKey() {
         NameLoad nameLoad = new NameLoad();
         String name = "=value";
-        assertThatThrownBy(()-> nameLoad.parse(name))
+        assertThatThrownBy(() -> nameLoad.parse(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageMatching("^.+")
                 .hasMessageContaining(name)
@@ -57,7 +57,7 @@ class NameLoadTest {
     void checkNoValue() {
         NameLoad nameLoad = new NameLoad();
         String name = "key=";
-        assertThatThrownBy(()-> nameLoad.parse(name))
+        assertThatThrownBy(() -> nameLoad.parse(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageMatching("^.+")
                 .hasMessageContaining(name)
