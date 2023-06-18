@@ -77,6 +77,16 @@ class MatrixItTest  {
     }
 
     @Test
+    void whenCompletelyEmptyThenNext() {
+        int[][] input = {
+        };
+        MatrixIt iterator = new MatrixIt(input);
+        assertThat(iterator.hasNext()).isFalse();
+        assertThatThrownBy(iterator::next)
+                .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
     void whenMultiHasNext() {
         int[][] input = {
                 {}, {1}
