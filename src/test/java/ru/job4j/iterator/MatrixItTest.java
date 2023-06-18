@@ -47,6 +47,18 @@ class MatrixItTest  {
     }
 
     @Test
+    void whenRowHasDiffSize2() {
+        int[][] input = {
+                {1, 2}, {2}
+        };
+        MatrixIt iterator = new MatrixIt(input);
+        assertThat(iterator.next()).isEqualTo(1);
+        assertThat(iterator.next()).isEqualTo(2);
+        assertThat(iterator.next()).isEqualTo(2);
+        assertThat(iterator.hasNext()).isFalse();
+    }
+
+    @Test
     void whenFewEmpty() {
         int[][] input = {
                 {1}, {}, {}, {}, {2}
