@@ -33,12 +33,12 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
         int currentIndex = 0;
         while (currentNode != null) {
             if (currentIndex == index) {
-                return currentNode.value;
+                break;
             }
             currentNode = currentNode.next;
             currentIndex++;
         }
-        return null;
+        return Objects.requireNonNull(currentNode).value;
     }
 
     @Override
