@@ -19,8 +19,9 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     private T[] increaseCapacity() {
         if (size == 0) {
             container = (T[]) new Object[10];
+        } else {
+            container = Arrays.copyOf(container, container.length * 2);
         }
-        container = Arrays.copyOf(container, container.length * 2);
         return container;
     }
 
@@ -29,8 +30,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         if (size == container.length) {
             container = increaseCapacity();
         }
-        container[size] = value;
-        size++;
+        container[size++] = value;
         modCount++;
     }
 
@@ -43,14 +43,10 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public T remove(int index) {
+        T removedValue = container[index];
         Objects.checkIndex(index, size);
-        T[] tempContainer = container;
-        container = (T[]) new Object[tempContainer.length - 1];
-        T removedValue = tempContainer[index];
-        System.arraycopy(tempContainer, 0, container, 0, index);
-        System.arraycopy(tempContainer, index + 1, container, index, tempContainer.length - index - 1);
+        System.arraycopy(container, index + 1, container, index, container.length - index - 1);
         size--;
         modCount++;
         return removedValue;
@@ -89,5 +85,17 @@ public class SimpleArrayList<T> implements SimpleList<T> {
                 return container[index++];
             }
         };
+    }
+
+    public static void main(String[] args) {
+        SimpleList<Integer> list = new SimpleArrayList<>(3);
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list = new SimpleArrayList<>(0);
+        System.out.println(list.size());
+        list.add(1);
+        System.out.println(list.size());
+        System.out.println(list.get(0));
     }
 }
