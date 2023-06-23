@@ -28,17 +28,15 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
 
     @Override
     public E get(int index) {
-        Node<E> currentNode = head;
         Objects.checkIndex(index, size);
-        int currentIndex = 0;
-        while (currentNode != null) {
-            if (currentIndex == index) {
+        Node<E> currentNode = head;
+        for (int i = 0; currentNode != null; i++) {
+            if (i == index) {
                 break;
             }
             currentNode = currentNode.next;
-            currentIndex++;
         }
-        return Objects.requireNonNull(currentNode).value;
+        return currentNode.value;
     }
 
     @Override
