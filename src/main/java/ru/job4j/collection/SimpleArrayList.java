@@ -36,16 +36,14 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public T set(int index, T newValue) {
-        Objects.checkIndex(index, size);
-        T exValue = container[index];
+        T exValue = get(index);
         container[index] = newValue;
         return exValue;
     }
 
     @Override
     public T remove(int index) {
-        T removedValue = container[index];
-        Objects.checkIndex(index, size);
+        T removedValue = get(index);
         System.arraycopy(container, index + 1, container, index, container.length - index - 1);
         size--;
         modCount++;
@@ -85,17 +83,5 @@ public class SimpleArrayList<T> implements SimpleList<T> {
                 return container[index++];
             }
         };
-    }
-
-    public static void main(String[] args) {
-        SimpleList<Integer> list = new SimpleArrayList<>(3);
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list = new SimpleArrayList<>(0);
-        System.out.println(list.size());
-        list.add(1);
-        System.out.println(list.size());
-        System.out.println(list.get(0));
     }
 }
