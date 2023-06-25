@@ -39,11 +39,13 @@ public class ForwardLinked<T> implements Iterable<T> {
             throw new NoSuchElementException("There are no more items in the collection!");
         }
         Node<T> deletedNode = head;
+        T deletedNodeValue = head.value;
         head = head.next;
         deletedNode.next = null;
+        deletedNode.value = null;
         modCount++;
         size--;
-        return deletedNode.value;
+        return deletedNodeValue;
     }
 
     @Override
@@ -73,7 +75,7 @@ public class ForwardLinked<T> implements Iterable<T> {
     }
 
     private static class Node<T> {
-        private final T value;
+        private T value;
         private Node<T> next;
 
         Node(T value, Node<T> next) {
