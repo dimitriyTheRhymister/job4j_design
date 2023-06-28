@@ -41,6 +41,13 @@ class ListUtilsTest {
     }
 
     @Test
+    void whenAddAfterEnd() {
+        List<Integer> input = new ArrayList<>(Arrays.asList(1, 2, 3));
+        ListUtils.addAfter(input, 2, 4);
+        assertThat(input).hasSize(4).containsSequence(1, 2, 3, 4);
+    }
+
+    @Test
     void whenAddAfterWithInvalidIndex() {
         assertThatThrownBy(() -> ListUtils.addBefore(input, 3, 2))
                 .isInstanceOf(IndexOutOfBoundsException.class);
