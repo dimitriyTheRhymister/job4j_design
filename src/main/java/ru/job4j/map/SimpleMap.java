@@ -56,12 +56,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        V rsl = null;
-        if (key == null) {
-            return getForNullKey();
-        }
+        V rsl = key == null ? getForNullKey() : null;
         for (MapEntry<K, V> entry : table) {
             if (entry != null
+                    && key != null
                     && entry.key != null
                     && entry.key.hashCode() == key.hashCode()
                     && entry.key.equals(key)) {
@@ -74,14 +72,15 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     private V getForNullKey() {
         int index = 0;
+        V value = null;
         for (MapEntry<K, V> e = table[index];
              e != null;
              e = table[index++]) {
             if (e.key == null) {
-                return e.value;
+                value = e.value;
             }
         }
-        return null;
+        return value;
     }
 
     @Override
@@ -91,22 +90,23 @@ public class SimpleMap<K, V> implements Map<K, V> {
             table[0] = null;
             count--;
             modCount++;
-            return true;
-        }
-        for (MapEntry<K, V> entry : table) {
-            if (entry != null
-                    && entry.key.hashCode() == key.hashCode()
-                    && entry.key.equals(key)) {
-                rsl = true;
-                break;
+            rsl = true;
+        } else {
+            for (MapEntry<K, V> entry : table) {
+                if (entry != null
+                        && entry.key.hashCode() == key.hashCode()
+                        && entry.key.equals(key)) {
+                    rsl = true;
+                    break;
+                }
             }
-        }
-        if (rsl) {
-            int hash = hash(key.hashCode());
-            int index = indexFor(hash);
-            table[index] = null;
-            count--;
-            modCount++;
+            if (rsl) {
+                int hash = hash(key.hashCode());
+                int index = indexFor(hash);
+                table[index] = null;
+                count--;
+                modCount++;
+            }
         }
         return rsl;
     }
