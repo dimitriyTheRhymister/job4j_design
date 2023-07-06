@@ -39,30 +39,26 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @SuppressWarnings("unchecked")
     private void expand() {
-        MapEntry<K, V>[] tableNew = new MapEntry[capacity * 2];
+        capacity = capacity * 2;
+        MapEntry<K, V>[] tableNew = new MapEntry[capacity];
         for (MapEntry<K, V> entry : table) {
             if (entry != null
                     && entry.key != null) {
+                MapEntry<K, V> entryNew = new MapEntry<>(entry.key, entry.value);
                 int hash = hash(entry.key.hashCode());
                 int index = indexFor(hash);
-                MapEntry<K, V> entryNew = new MapEntry<>(entry.key, entry.value);
                 tableNew[index] = entryNew;
             }
         }
         tableNew[0] = table[0];
         table = tableNew;
-        capacity = capacity * 2;
     }
 
     @Override
     public V get(K key) {
         V rsl = key == null ? getForNullKey() : null;
         for (MapEntry<K, V> entry : table) {
-            if (entry != null
-                    && key != null
-                    && entry.key != null
-                    && entry.key.hashCode() == key.hashCode()
-                    && entry.key.equals(key)) {
+            if (testBeforeGetOrRemove(entry, key)) {
                 rsl = entry.value;
                 break;
             }
@@ -83,6 +79,14 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return value;
     }
 
+    private boolean testBeforeGetOrRemove(MapEntry<K, V> entry, K key) {
+        return entry != null
+                && key != null
+                && entry.key != null
+                && entry.key.hashCode() == key.hashCode()
+                && entry.key.equals(key);
+    }
+
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
@@ -93,9 +97,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
             rsl = true;
         } else {
             for (MapEntry<K, V> entry : table) {
-                if (entry != null
-                        && entry.key.hashCode() == key.hashCode()
-                        && entry.key.equals(key)) {
+                if (testBeforeGetOrRemove(entry, key)) {
                     rsl = true;
                     break;
                 }
