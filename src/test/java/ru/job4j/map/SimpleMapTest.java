@@ -89,7 +89,7 @@ class SimpleMapTest {
         assertThat(it.hasNext()).isTrue();
     }
 
-   /* @Test
+    @Test
     void whenMapExpand() {
         map.put(null, "0000");
         assertThat(map.put(15, "15")).isTrue();
@@ -100,7 +100,7 @@ class SimpleMapTest {
         assertThat(map.get(8)).isEqualTo("8");
         assertThat(map.get(15)).isEqualTo("15");
         assertThat(map).hasSize(7).contains(null, 1, 2, 3, 4, 8, 15);
-    }*/
+    }
 
     @Test
     void whenCheckPutKeyNull() {

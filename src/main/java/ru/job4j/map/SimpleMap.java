@@ -14,19 +14,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
+        if (count >= capacity * LOAD_FACTOR) {
+            expand();
+        }
         boolean rsl = false;
         int hash = key == null ? 0 : hash(key.hashCode());
         int index = indexFor(hash);
-        for (int i = 0; i < capacity; i++) {
-            if (table[index] == null) {
-                table[index] = new MapEntry<>(key, value);
-                if (++count > capacity * LOAD_FACTOR) {
-                    expand();
-                }
-                modCount++;
-                rsl = true;
-                break;
-            }
+        if (table[index] == null) {
+            table[index] = new MapEntry<>(key, value);
+            count++;
+            modCount++;
+            rsl = true;
         }
         return rsl;
     }
@@ -41,7 +39,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @SuppressWarnings("unchecked")
     private void expand() {
-        count = 0;
         MapEntry<K, V>[] tableNew = new MapEntry[capacity * 2];
         for (MapEntry<K, V> entry : table) {
             if (entry != null
@@ -50,7 +47,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 int index = indexFor(hash);
                 MapEntry<K, V> entryNew = new MapEntry<>(entry.key, entry.value);
                 tableNew[index] = entryNew;
-                count++;
             }
         }
         tableNew[0] = table[0];
@@ -78,7 +74,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     private V getForNullKey() {
         int index = 0;
-        for (MapEntry<K, V> e = table[index]; e != null; e = table[index++]) {
+        for (MapEntry<K, V> e = table[index];
+             e != null;
+             e = table[index++]) {
             if (e.key == null) {
                 return e.value;
             }
