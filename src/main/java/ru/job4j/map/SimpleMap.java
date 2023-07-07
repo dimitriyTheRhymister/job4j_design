@@ -18,16 +18,18 @@ public class SimpleMap<K, V> implements Map<K, V> {
         if (count >= capacity * LOAD_FACTOR) {
             expand();
         }
-        boolean rsl = false;
-        int hash = isNull(key) ? 0 : hash(key.hashCode());
-        int index = indexFor(hash);
-        if (isNull(table[index])) {
+        int index = getIndex(key);
+        boolean rsl = isNull(table[index]);
+        if (rsl) {
             table[index] = new MapEntry<>(key, value);
             count++;
             modCount++;
-            rsl = true;
         }
         return rsl;
+    }
+
+    private int getIndex(K key) {
+        return indexFor(hash(Objects.hashCode(key)));
     }
 
     private int hash(int hashCode) {
@@ -43,70 +45,35 @@ public class SimpleMap<K, V> implements Map<K, V> {
         capacity *= 2;
         MapEntry<K, V>[] tableNew = new MapEntry[capacity];
         for (MapEntry<K, V> entry : table) {
-            if (nonNull(entry)
-                    && nonNull(entry.key)) {
-                MapEntry<K, V> entryNew = new MapEntry<>(entry.key, entry.value);
-                int hash = hash(entry.key.hashCode());
-                int index = indexFor(hash);
-                tableNew[index] = entryNew;
+            if (nonNull(entry)) {
+                tableNew[getIndex(entry.key)] = entry;
             }
         }
-        tableNew[0] = table[0];
         table = tableNew;
     }
 
     @Override
     public V get(K key) {
-        return isNull(key) ? getForNull() : getForNoNull(key);
+        MapEntry<K, V> entry = table[getIndex(key)];
+        return nonNull(entry) && isEquals(entry.key, key)
+                ? entry.value
+                : null;
     }
 
-    private V getForNull() {
-        return nonNull(table[0]) && isNull(table[0].key) ? table[0].value : null;
-    }
-
-    private V getForNoNull(K key) {
-        V rsl = null;
-        for (MapEntry<K, V> entry : table) {
-            if (testBeforeGetOrRemove(entry, key)) {
-                rsl = entry.value;
-                break;
-            }
-        }
-        return rsl;
-    }
-
-    private boolean testBeforeGetOrRemove(MapEntry<K, V> entry, K key) {
-        return nonNull(entry)
-                && nonNull(entry.key)
-                && nonNull(key)
-                && entry.key.hashCode() == key.hashCode()
-                && Objects.equals(entry.key, key);
+    private boolean isEquals(K tabKey, K key) {
+        return Objects.hashCode(tabKey) == Objects.hashCode(key)
+                && Objects.equals(tabKey, key);
     }
 
     @Override
     public boolean remove(K key) {
-        return isNull(key) ? removeForNull() : removeForNoNull(key);
-    }
-
-    private boolean removeForNull() {
-        table[0] = null;
-        count--;
-        modCount++;
-        return true;
-    }
-
-    private boolean removeForNoNull(K key) {
-        boolean rsl = false;
-        int hash = hash(key.hashCode());
-        int index = indexFor(hash);
-        for (MapEntry<K, V> entry : table) {
-            if (testBeforeGetOrRemove(entry, key)) {
-                table[index] = null;
-                count--;
-                modCount++;
-                rsl = true;
-                break;
-            }
+        int index = getIndex(key);
+        MapEntry<K, V> entry = table[index];
+        boolean rsl = nonNull(entry) && isEquals(entry.key, key);
+        if (rsl) {
+            table[index] = null;
+            count--;
+            modCount++;
         }
         return rsl;
     }
