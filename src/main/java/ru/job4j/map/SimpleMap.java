@@ -39,7 +39,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @SuppressWarnings("unchecked")
     private void expand() {
-        capacity = capacity * 2;
+        capacity *= 2;
         MapEntry<K, V>[] tableNew = new MapEntry[capacity];
         for (MapEntry<K, V> entry : table) {
             if (entry != null
@@ -56,9 +56,16 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        V rsl = key == null ? getForNullKey() : null;
+        return key == null ? getForNull() : getForNoNull(key);
+    }
+
+    private V getForNoNull(K key) {
+        V rsl = null;
         for (MapEntry<K, V> entry : table) {
-            if (testBeforeGetOrRemove(entry, key)) {
+            if (entry != null
+                    && entry.key != null
+                    && entry.key.hashCode() == key.hashCode()
+                    && entry.key.equals(key)) {
                 rsl = entry.value;
                 break;
             }
@@ -66,49 +73,20 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return rsl;
     }
 
-    private V getForNullKey() {
-        int index = 0;
-        V value = null;
-        for (MapEntry<K, V> e = table[index];
-             e != null;
-             e = table[index++]) {
-            if (e.key == null) {
-                value = e.value;
-            }
-        }
-        return value;
-    }
-
-    private boolean testBeforeGetOrRemove(MapEntry<K, V> entry, K key) {
-        return entry != null
-                && key != null
-                && entry.key != null
-                && entry.key.hashCode() == key.hashCode()
-                && entry.key.equals(key);
+    private V getForNull() {
+        return table[0].key == null ? table[0].value : null;
     }
 
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        if (key == null) {
-            table[0] = null;
+        int hash = key == null ? 0 : hash(key.hashCode());
+        int index = indexFor(hash);
+        if (table[index] != null) {
+            table[index] = null;
             count--;
             modCount++;
             rsl = true;
-        } else {
-            for (MapEntry<K, V> entry : table) {
-                if (testBeforeGetOrRemove(entry, key)) {
-                    rsl = true;
-                    break;
-                }
-            }
-            if (rsl) {
-                int hash = hash(key.hashCode());
-                int index = indexFor(hash);
-                table[index] = null;
-                count--;
-                modCount++;
-            }
         }
         return rsl;
     }
