@@ -1,8 +1,9 @@
 package ru.job4j.map;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class SimpleMap<K, V> implements Map<K, V> {
     private static final float LOAD_FACTOR = 0.75f;
@@ -18,9 +19,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
             expand();
         }
         boolean rsl = false;
-        int hash = key == null ? 0 : hash(key.hashCode());
+        int hash = isNull(key) ? 0 : hash(key.hashCode());
         int index = indexFor(hash);
-        if (table[index] == null) {
+        if (isNull(table[index])) {
             table[index] = new MapEntry<>(key, value);
             count++;
             modCount++;
@@ -42,8 +43,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
         capacity *= 2;
         MapEntry<K, V>[] tableNew = new MapEntry[capacity];
         for (MapEntry<K, V> entry : table) {
-            if (entry != null
-                    && entry.key != null) {
+            if (nonNull(entry)
+                    && nonNull(entry.key)) {
                 MapEntry<K, V> entryNew = new MapEntry<>(entry.key, entry.value);
                 int hash = hash(entry.key.hashCode());
                 int index = indexFor(hash);
@@ -56,16 +57,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        return key == null ? getForNull() : getForNoNull(key);
+        return isNull(key) ? getForNull() : getForNoNull(key);
+    }
+
+    private V getForNull() {
+        return nonNull(table[0]) && isNull(table[0].key) ? table[0].value : null;
     }
 
     private V getForNoNull(K key) {
         V rsl = null;
         for (MapEntry<K, V> entry : table) {
-            if (entry != null
-                    && entry.key != null
-                    && entry.key.hashCode() == key.hashCode()
-                    && entry.key.equals(key)) {
+            if (testBeforeGetOrRemove(entry, key)) {
                 rsl = entry.value;
                 break;
             }
@@ -73,20 +75,38 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return rsl;
     }
 
-    private V getForNull() {
-        return table[0].key == null ? table[0].value : null;
+    private boolean testBeforeGetOrRemove(MapEntry<K, V> entry, K key) {
+        return nonNull(entry)
+                && nonNull(entry.key)
+                && nonNull(key)
+                && entry.key.hashCode() == key.hashCode()
+                && Objects.equals(entry.key, key);
     }
 
     @Override
     public boolean remove(K key) {
+        return isNull(key) ? removeForNull() : removeForNoNull(key);
+    }
+
+    private boolean removeForNull() {
+        table[0] = null;
+        count--;
+        modCount++;
+        return true;
+    }
+
+    private boolean removeForNoNull(K key) {
         boolean rsl = false;
-        int hash = key == null ? 0 : hash(key.hashCode());
+        int hash = hash(key.hashCode());
         int index = indexFor(hash);
-        if (table[index] != null) {
-            table[index] = null;
-            count--;
-            modCount++;
-            rsl = true;
+        for (MapEntry<K, V> entry : table) {
+            if (testBeforeGetOrRemove(entry, key)) {
+                table[index] = null;
+                count--;
+                modCount++;
+                rsl = true;
+                break;
+            }
         }
         return rsl;
     }
@@ -104,7 +124,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                     throw new ConcurrentModificationException("Modifying a collection while iterating over it is not allowed!");
                 }
                 while (indexInItr < capacity
-                        && table[indexInItr] == null) {
+                        && isNull(table[indexInItr])) {
                     indexInItr++;
                     countInItr++;
                 }
