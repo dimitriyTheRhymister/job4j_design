@@ -4,19 +4,17 @@ import java.util.*;
 
 public class SimpleTree<E> implements Tree<E> {
     private final Node<E> root;
+
     public SimpleTree(final E root) {
         this.root = new Node<>(root);
     }
 
     @Override
     public boolean add(E parent, E child) {
-        boolean rsl = false;
-        Optional<Node<E>> nodeP = findBy(parent);
-        Optional<Node<E>> nodeC = findBy(child);
-        if (nodeP.isPresent()
-                && nodeC.isEmpty()) {
-            nodeP.get().children.add(new Node<>(child));
-            rsl = true;
+        boolean rsl = findBy(parent).isPresent()
+                && findBy(child).isEmpty();
+        if (rsl) {
+            root.children.add(new Node<>(child));
         }
         return rsl;
     }

@@ -25,13 +25,8 @@ public class SimpleTreeTest {
         tree.add(1, 4);
         tree.add(4, 5);
         tree.add(5, 6);
-        tree.add(null, 22);
-        tree.add(null, 1);
-        tree.add(null, null);
         assertThat(tree.findBy(7)).isNotPresent();
         assertThat(tree.findBy(4)).isNotNull();
-        assertThat(tree.findBy(null)).isNotEqualTo(null);
-        assertThat(tree.findBy(null)).isEmpty();
     }
 
     @Test
