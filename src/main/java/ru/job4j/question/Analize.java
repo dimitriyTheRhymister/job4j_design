@@ -18,8 +18,7 @@ public class Analize {
                     && isContains) {
                 change++;
             }
-            if (mapValue == null
-                    && !isContains) {
+            if (!isContains) {
                 add++;
             }
         }
