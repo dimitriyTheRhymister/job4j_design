@@ -7,15 +7,15 @@ public class Analize {
         int add = 0;
         int change = 0;
         int delete;
-        Map<String, Integer> map = new HashMap<>();
+        Map<Integer, String> map = new HashMap<>();
         for (User user : previous) {
-            map.put(user.getName(), user.getId());
+            map.put(user.getId(), user.getName());
         }
         for (User user : current) {
-            Integer mapValue = map.get(user.getName());
+            String mapValue = map.get(user.getId());
             boolean isContains = isContains(map, user.getId());
-            if (mapValue == null
-                    && isContains) {
+            if (isContains
+                    && !mapValue.equals(user.getName())) {
                 change++;
             }
             if (!isContains) {
@@ -26,7 +26,7 @@ public class Analize {
         return new Info(add, change, delete);
     }
 
-    private static boolean isContains(Map<String, Integer> map, int mapValue) {
-        return map.containsValue(mapValue);
+    private static boolean isContains(Map<Integer, String> map, Integer mapKey) {
+        return map.containsKey(mapKey);
     }
 }
