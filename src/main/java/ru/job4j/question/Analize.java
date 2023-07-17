@@ -22,7 +22,6 @@ public class Analize {
                     add++;
                 }
             }
-            map.put(mapKey, mapValue);
             delete = previous.size() - current.size() + add;
         }
         return new Info(add, change, delete);
