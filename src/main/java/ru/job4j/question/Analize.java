@@ -12,14 +12,14 @@ public class Analize {
             map.put(user.getName(), user.getId());
         }
         for (User user : current) {
-            String mapKey = user.getName();
-            int mapValue = user.getId();
-            if (map.get(mapKey) == null
-                    && isContains(map, mapValue)) {
+            Integer mapValue = map.get(user.getName());
+            boolean isContains = isContains(map, user.getId());
+            if (mapValue == null
+                    && isContains) {
                 change++;
             }
-            if (map.get(mapKey) == null
-                    && !isContains(map, mapValue)) {
+            if (mapValue == null
+                    && !isContains) {
                 add++;
             }
         }
