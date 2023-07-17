@@ -6,7 +6,7 @@ public class Analize {
     public static Info diff(Set<User> previous, Set<User> current) {
         int add = 0;
         int change = 0;
-        int delete = 0;
+        int delete;
         Map<String, Integer> map = new HashMap<>();
         for (User user : previous) {
             map.put(user.getName(), user.getId());
@@ -14,20 +14,20 @@ public class Analize {
         for (User user : current) {
             String mapKey = user.getName();
             int mapValue = user.getId();
-            if (map.get(mapKey) == null) {
-                if (isContains(map, mapValue)) {
-                    change++;
-                }
-                if (!isContains(map, mapValue)) {
-                    add++;
-                }
+            if (map.get(mapKey) == null
+                    && isContains(map, mapValue)) {
+                change++;
             }
-            delete = previous.size() - current.size() + add;
+            if (map.get(mapKey) == null
+                    && !isContains(map, mapValue)) {
+                add++;
+            }
         }
+        delete = previous.size() - current.size() + add;
         return new Info(add, change, delete);
     }
 
-    public static boolean isContains(Map<String, Integer> map, int mapValue) {
+    private static boolean isContains(Map<String, Integer> map, int mapValue) {
         return map.containsValue(mapValue);
     }
 }
