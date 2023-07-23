@@ -20,6 +20,16 @@ public class LogFilter {
         return stringList;
     }
 
+    public static void save(List<String> log, String file) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (String line : log) {
+                writer.write(line + "\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void main(String[] args) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/log.txt"))) {
             writer.write("""
@@ -41,5 +51,6 @@ public class LogFilter {
         for (String line : log) {
             System.out.println(line);
         }
+        save(log, "data/404.txt");
     }
 }
