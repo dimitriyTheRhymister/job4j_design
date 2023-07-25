@@ -12,7 +12,8 @@ public class Analysis {
     private String[] strings;
 
     public void unavailable(String source, String target) {
-        try (BufferedReader read = new BufferedReader(new FileReader(source))) {
+        try (BufferedReader read = new BufferedReader(new FileReader(source));
+             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(target)))) {
             Stream<String> stringsStream = read.lines();
             List<String> stringList = stringsStream.toList();
             strings = stringList.toArray(new String[0]);
@@ -20,13 +21,9 @@ public class Analysis {
                 addRangeBorder("400", "500");
                 addRangeBorder("200", "300");
             }
+            writer.println(out);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(target)))) {
-                writer.println(out);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
