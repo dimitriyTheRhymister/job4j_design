@@ -10,14 +10,10 @@ public class Analysis {
              PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(target)))) {
             reader.lines().forEach(line -> {
                 boolean work = Integer.parseInt(line.substring(0, 1)) > 3;
-                String time = line.substring(4) + ";";
-                if (work && range) {
-                    writer.print(time);
-                    range = false;
-                }
-                if (!work && !range) {
-                    writer.println(time);
-                    range = true;
+                String timeAdd = range ? ";" : ";\n";
+                if (work == range) {
+                    writer.print(line.substring(4) + timeAdd);
+                    range = !range;
                 }
             });
         } catch (
