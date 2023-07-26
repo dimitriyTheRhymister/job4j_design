@@ -25,10 +25,13 @@ public class Config {
                                 || line.startsWith("=")
                                 || (line.endsWith("=")
                                 && line.indexOf("=") == line.length() - 1)) {
-                            throw new IllegalArgumentException("IllegalArgument!");
+                            throw new IllegalArgumentException("This line: "
+                                    + "\"" + line + "\""
+                                    + " resulted in an error!");
                         }
-                        String[] strings = line.split("=");
-                        values.put(strings[0], strings[1]);
+                        int equalIndex = line.indexOf("=");
+                        values.put(line.substring(0, equalIndex),
+                                line.substring(equalIndex + 1));
                     });
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,6 +61,7 @@ public class Config {
 
     public static void main(String[] args) {
         System.out.println(new Config("data/app.properties"));
+        new Config("data/smile.properties").load();
     }
 
 }

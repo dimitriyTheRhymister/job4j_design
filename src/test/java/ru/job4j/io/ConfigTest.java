@@ -29,7 +29,7 @@ class ConfigTest {
         String path = "./data/equal_double.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.connection.password")).isEqualTo("password");
+        assertThat(config.value("hibernate.connection.password")).isEqualTo("password=passwordhibernate");
     }
 
     @Test
@@ -37,7 +37,7 @@ class ConfigTest {
         String path = "./data/equal_double_end.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.connection.password")).isEqualTo("password");
+        assertThat(config.value("hibernate.connection.password")).isEqualTo("password=");
     }
 
     @Test
@@ -47,7 +47,7 @@ class ConfigTest {
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 config::load);
-        assertThat(exception.getMessage()).isEqualTo("IllegalArgument!");
+        assertThat(exception.getMessage()).isEqualTo("This line: \"=postgres\" resulted in an error!");
     }
 
     @Test
@@ -57,7 +57,7 @@ class ConfigTest {
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 config::load);
-        assertThat(exception.getMessage()).isEqualTo("IllegalArgument!");
+        assertThat(exception.getMessage()).isEqualTo("This line: \"hibernate.connection.username=\" resulted in an error!");
     }
 
     @Test
@@ -67,7 +67,7 @@ class ConfigTest {
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 config::load);
-        assertThat(exception.getMessage()).isEqualTo("IllegalArgument!");
+        assertThat(exception.getMessage()).isEqualTo("This line: \"hibernate.connection.driver_class.org.postgresql.Driver\" resulted in an error!");
     }
 
     @Test
@@ -77,6 +77,6 @@ class ConfigTest {
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 config::load);
-        assertThat(exception.getMessage()).isEqualTo("IllegalArgument!");
+        assertThat(exception.getMessage()).isEqualTo("This line: \"=)\" resulted in an error!");
     }
 }
