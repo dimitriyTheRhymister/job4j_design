@@ -10,12 +10,13 @@ public class Analysis {
              PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(target)))) {
             reader.lines().forEach(line -> {
                 boolean work = Integer.parseInt(line.substring(0, 1)) > 3;
+                String time = line.substring(4) + ";";
                 if (work && range) {
-                    writer.print(line.substring(4) + ";");
+                    writer.print(time);
                     range = false;
                 }
                 if (!work && !range) {
-                    writer.println(line.substring(4) + ";");
+                    writer.println(time);
                     range = true;
                 }
             });
@@ -23,7 +24,6 @@ public class Analysis {
                 IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public static void main(String[] args) {
