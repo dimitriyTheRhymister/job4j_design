@@ -1,46 +1,37 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 public class Analysis {
     private final StringBuilder out = new StringBuilder();
-    private boolean range = false;
-    private int index = 0;
-    private String[] strings;
+    private int range = 0;
 
     public void unavailable(String source, String target) {
-        try (BufferedReader read = new BufferedReader(new FileReader(source));
+        try (BufferedReader reader = new BufferedReader(new FileReader(source));
              PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(target)))) {
-            Stream<String> stringsStream = read.lines();
-            List<String> stringList = stringsStream.toList();
-            strings = stringList.toArray(new String[0]);
-            while (index < strings.length - 1) {
-                addRangeBorder("400", "500");
-                addRangeBorder("200", "300");
-            }
+            reader.lines().forEach(line -> {
+                if ((line.startsWith("400")
+                        || line.startsWith("500"))
+                && range == 0) {
+                    out.append(line.substring(4));
+                    out.append(";");
+                    range = 1;
+                }
+                if ((line.startsWith("200")
+                        || line.startsWith("300"))
+                        && range == 1) {
+                    out.append(line.substring(4));
+                    out.append(";");
+                    range = 0;
+                    out.append("\n");
+                }
+            });
             writer.println(out);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
-    }
 
-    private void addRangeBorder(String status1, String status2) {
-        for (int i = index; i < strings.length; i++) {
-            if (strings[i].startsWith(status1)
-                    || strings[i].startsWith(status2)) {
-                out.append(strings[i].substring(4));
-                out.append(";");
-                range = !range;
-                index = i;
-                break;
-            }
-        }
-        if (Objects.equals(status1, "200") || Objects.equals(status2, "300")) {
-            out.append("\n");
-        }
     }
 
     public static void main(String[] args) {
