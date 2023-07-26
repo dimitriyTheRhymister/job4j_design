@@ -33,9 +33,10 @@ public class Config {
 
     private void errorCheck(String line) {
         StringBuilder message = new StringBuilder();
-        message.append("This line: \"");
-        message.append(line);
-        message.append("\" resulted in an error!");
+        message
+                .append("This line: \"")
+                .append(line)
+                .append("\" resulted in an error!");
         if (!line.contains("=")
                 || line.startsWith("=")
                 || (line.endsWith("=")
