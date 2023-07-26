@@ -21,20 +21,26 @@ public class Config {
                     .filter(line -> !line.startsWith("#"))
                     .filter(line -> line.length() != 0)
                     .forEach(line -> {
-                        if (!line.contains("=")
-                                || line.startsWith("=")
-                                || (line.endsWith("=")
-                                && line.indexOf("=") == line.length() - 1)) {
-                            throw new IllegalArgumentException("This line: "
-                                    + "\"" + line + "\""
-                                    + " resulted in an error!");
-                        }
+                        errorCheck(line);
                         int equalIndex = line.indexOf("=");
                         values.put(line.substring(0, equalIndex),
                                 line.substring(equalIndex + 1));
                     });
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void errorCheck(String line) {
+        StringBuilder message = new StringBuilder();
+        message.append("This line: \"");
+        message.append(line);
+        message.append("\" resulted in an error!");
+        if (!line.contains("=")
+                || line.startsWith("=")
+                || (line.endsWith("=")
+                && line.indexOf("=") == line.length() - 1)) {
+            throw new IllegalArgumentException(String.valueOf(message));
         }
     }
 
