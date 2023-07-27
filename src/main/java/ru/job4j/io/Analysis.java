@@ -10,9 +10,10 @@ public class Analysis {
              PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(target)))) {
             reader.lines().forEach(line -> {
                 boolean work = Integer.parseInt(line.substring(0, 1)) > 3;
+                StringBuilder time = new StringBuilder(line.substring(4));
                 String timeAdd = range ? ";" : ";\n";
                 if (work == range) {
-                    writer.print(line.substring(4) + timeAdd);
+                    writer.print(time.append(timeAdd));
                     range = !range;
                 }
             });
