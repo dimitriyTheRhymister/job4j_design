@@ -8,8 +8,7 @@ import java.nio.file.Paths;
 public class DuplicatesFinder {
     public static void main(String[] args) throws IOException {
         Path root = Paths.get("./");
-        NumberOfFiles testClass = new NumberOfFiles();
-        int count = testClass.count(root.toFile());
-        Files.walkFileTree(root, new DuplicatesVisitor(count));
+        Files.walkFileTree(root, new DuplicatesVisitor());
+        DuplicatesVisitor.printResult();
     }
 }
