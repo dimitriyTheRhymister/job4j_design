@@ -1,12 +1,14 @@
 package ru.job4j.io.duplicates;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.io.*;
 
 public class NumberOfFiles {
-    int count = 0;
+    private int count = 0;
 
-    int count(File dir) {
+    public int count(@NotNull File dir) {
         for (File fileEntry : Objects.requireNonNull(dir.listFiles())) {
             if (fileEntry.isDirectory()) {
                 count(fileEntry);
