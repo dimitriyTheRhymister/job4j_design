@@ -5,28 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Balancer {
-    private static void append(List<ArrayList<Integer>> nodes, Iterator<Integer> source) {
-        for (ArrayList<Integer> integerArrayList : nodes) {
-            integerArrayList.add(source.next());
-            if (!source.hasNext()) {
-                break;
-            }
-        }
-    }
-
     public static void split(List<ArrayList<Integer>> nodes, Iterator<Integer> source) {
-        while (source.hasNext()) {
-            append(nodes, source);
+        for (int i = 0; source.hasNext(); i++) {
+            if (i == nodes.size()) {
+                i = 0;
+            }
+            nodes.get(i).add(source.next());
         }
-    }
-
-    public static void main(String[] args) {
-        List<ArrayList<Integer>> nodes = List.of(
-                new ArrayList<>(),
-                new ArrayList<>()
-        );
-        Iterator<Integer> source = List.of(1, 2, 3).iterator();
-        Balancer.split(nodes, source);
-        System.out.println(nodes);
     }
 }
