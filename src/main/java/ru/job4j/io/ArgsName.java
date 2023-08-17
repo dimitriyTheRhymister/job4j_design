@@ -7,8 +7,9 @@ public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
+        StringBuilder message = new StringBuilder("This key: '").append(key).append("' is missing");
         if (!values.containsKey(key)) {
-            throw new IllegalArgumentException("This key: '" + key + "' is missing");
+            throw new IllegalArgumentException(message.toString());
         }
         String value = null;
         for (String k : values.keySet()) {
@@ -21,18 +22,19 @@ public class ArgsName {
 
     private void parse(String[] args) {
         for (String s : args) {
+            StringBuilder message = new StringBuilder("Error: This argument '").append(s);
             if (!s.startsWith("-")) {
-                throw new IllegalArgumentException("Error: This argument '" + s + "' does not start with a '-' character");
+                throw new IllegalArgumentException(String.valueOf(message.append("' does not start with a '-' character")));
             }
             if (!s.contains("=")) {
-                throw new IllegalArgumentException("Error: This argument '" + s + "' does not contain an equal sign");
+                throw new IllegalArgumentException(String.valueOf(message.append("' does not contain an equal sign")));
             }
             if (s.endsWith("=")
                     && !s.substring(0, s.length() - 1).contains("=")) {
-                throw new IllegalArgumentException("Error: This argument '" + s + "' does not contain a value");
+                throw new IllegalArgumentException(String.valueOf(message.append("' does not contain a value")));
             }
             if (s.startsWith("-=")) {
-                throw new IllegalArgumentException("Error: This argument '" + s + "' does not contain a key");
+                throw new IllegalArgumentException(String.valueOf(message.append("' does not contain a key")));
             }
             values.put(s.substring(1, s.indexOf("=")),
                     s.substring(s.indexOf("=") + 1));
