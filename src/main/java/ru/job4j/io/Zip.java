@@ -15,6 +15,7 @@ public class Zip {
         for (Path source : sources) {
             File sourceFile = new File(String.valueOf(source.toFile()));
             packSingleFile(sourceFile, target);
+            System.out.println("fuck" + sourceFile);
         }
     }
 
@@ -23,6 +24,7 @@ public class Zip {
             zip.putNextEntry(new ZipEntry(source.getPath()));
             try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
                 zip.write(out.readAllBytes());
+//                zip.closeEntry();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,4 +46,3 @@ public class Zip {
         zipDir.packFiles(sources, target);
     }
 }
-//-d=c:\projects\job4j_design
