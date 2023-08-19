@@ -15,7 +15,6 @@ public class Zip {
         for (Path source : sources) {
             File sourceFile = new File(String.valueOf(source.toFile()));
             packSingleFile(sourceFile, target);
-            System.out.println("fuck" + sourceFile);
         }
     }
 
@@ -24,7 +23,6 @@ public class Zip {
             zip.putNextEntry(new ZipEntry(source.getPath()));
             try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
                 zip.write(out.readAllBytes());
-//                zip.closeEntry();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,6 +35,7 @@ public class Zip {
                 new File("./pom.xml"),
                 new File("./pom.zip")
         );
+
         Zip zipDir = new Zip();
         zipDir.validation(args);
         Path start = new File(args[0].substring(3)).toPath();
