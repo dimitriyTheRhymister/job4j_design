@@ -52,7 +52,7 @@ public class ArgsName {
     }
 
     public static void checkArgsForPackFiles(String[] args) {
-            if (args.length < 3) {
+            if (args.length != 3) {
                 throw new IllegalArgumentException("The required number of Arguments was not passed to the program");
             }
             File source = new File(args[0].substring(3));
