@@ -49,9 +49,9 @@ public class Zip {
     public static void main(String[] args) throws IOException {
         Zip zipDir = new Zip();
         zipDir.validateArgs(args);
-        String sourceDir = String.valueOf(new File(args[0].substring(3)));
+        String sourceDir = args[0].substring(3);
         String extension = args[1].substring(4);
-        String zipFile = String.valueOf(new File(args[2].substring(3)));
+        String zipFile = args[2].substring(3);
         zipDir.packFiles(sourceDir, extension, zipFile);
     }
 }
