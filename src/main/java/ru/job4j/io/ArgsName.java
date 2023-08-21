@@ -1,6 +1,5 @@
 package ru.job4j.io;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,24 +48,6 @@ public class ArgsName {
         ArgsName names = new ArgsName();
         names.parse(args);
         return names;
-    }
-
-    public static void checkArgsForPackFiles(String[] args) {
-            if (args.length != 3) {
-                throw new IllegalArgumentException("The required number of Arguments was not passed to the program");
-            }
-            File source = new File(args[0].substring(3));
-            if (!source.exists()) {
-                throw new IllegalArgumentException(String.format("Not exist %s", source.getAbsoluteFile()));
-            }
-            boolean exclude = args[1].substring(4).startsWith(".");
-            if (!exclude) {
-                throw new IllegalArgumentException("Wrong extension format for exclude argument");
-            }
-            String target = args[2].split("\\.")[1];
-            if (!target.equals("zip")) {
-                throw new IllegalArgumentException("Wrong target extension format");
-            }
     }
 
     public static void main(String[] args) {

@@ -8,8 +8,22 @@ import java.util.zip.ZipOutputStream;
 
 public class Zip {
     private void validateArgs(String[] args) {
-        ArgsName.checkArgsForPackFiles(args);
-        /*System.out.println("Валидация аргументов = ok");*/
+        if (args.length != 3) {
+            throw new IllegalArgumentException("The required number of Arguments was not passed to the program");
+        }
+        File source = new File(args[0].substring(3));
+        if (!source.exists()) {
+            throw new IllegalArgumentException(String.format("Not exist %s", source.getAbsoluteFile()));
+        }
+        boolean exclude = args[1].substring(4).startsWith(".");
+        if (!exclude) {
+            throw new IllegalArgumentException("Wrong extension format for exclude argument");
+        }
+        String target = args[2].split("\\.")[1];
+        if (!target.equals("zip")) {
+            throw new IllegalArgumentException("Wrong target extension format");
+        }
+        /*System.out.println("Валидация аргументов прошла успешно");*/
     }
 
     private void packFiles(String sourceDir, String extension, String zipFile) {
