@@ -22,32 +22,14 @@ public class Zip {
         }
     }
 
-    private void packFiles(String sourceDir, String extension, String zipFile) {
-        try (ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)))) {
-            File dirSource = new File(sourceDir);
-            addDirectory(zos, extension, dirSource);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void addDirectory(ZipOutputStream zos, String extension, File dirSource) throws IOException {
-        Path start = dirSource.toPath();
-        List<Path> sources = Search.search(start, p -> !p.toString().endsWith(extension));
-        for (Path p : sources) {
-            File file = p.toFile();
-            if (file.isDirectory()) {
-                addDirectory(zos, extension, file);
-                continue;
+    public void packFiles(List<Path> sources, File target) {
+        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
+            for (Path source : sources) {
+                zip.putNextEntry(new ZipEntry(source.toString()));
+                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source.toFile()))) {
+                    zip.write(out.readAllBytes());
+                }
             }
-            addFile(zos, file);
-        }
-    }
-
-    private void addFile(ZipOutputStream zos, File fileSource) {
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(fileSource))) {
-            zos.putNextEntry(new ZipEntry(fileSource.getPath()));
-            zos.write(bis.readAllBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,9 +42,11 @@ public class Zip {
         ArgsName argsName = ArgsName.of(args);
         Zip zipDir = new Zip();
         zipDir.validateArgs(argsName);
-        String sourceDir = args[0].substring(3);
-        String extension = args[1].substring(4);
-        String zipFile = args[2].substring(3);
-        zipDir.packFiles(sourceDir, extension, zipFile);
+        String sourceDir = argsName.get("d");
+        String extension = argsName.get("e").substring(1);
+        String target = argsName.get("o");
+        Path root = Path.of(sourceDir);
+        List<Path> sources = Search.search(root, p -> !p.toString().endsWith(extension));
+        zipDir.packFiles(sources, new File(target));
     }
 }
