@@ -16,8 +16,8 @@ public class Zip {
         if (!exclude) {
             throw new IllegalArgumentException("Wrong extension format for exclude argument");
         }
-        String target = args.get("o");
-        if (!target.equals("project.zip")) {
+        String target = args.get("o").split("\\.")[1];
+        if (!"zip".equals(target)) {
             throw new IllegalArgumentException("Wrong target extension format");
         }
     }
