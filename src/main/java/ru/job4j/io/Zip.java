@@ -35,7 +35,24 @@ public class Zip {
         }
     }
 
+    public void packSingleFile(File source, File target) {
+        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
+            zip.putNextEntry(new ZipEntry(source.getPath()));
+            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
+                zip.write(out.readAllBytes());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws IOException {
+        Zip zip = new Zip();
+        zip.packSingleFile(
+                new File("./pom.xml"),
+                new File("./pom.zip")
+        );
+
         if (args.length != 3) {
             throw new IllegalArgumentException("The required number of Arguments was not passed to the program");
         }
