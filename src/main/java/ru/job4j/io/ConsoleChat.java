@@ -63,9 +63,9 @@ public class ConsoleChat {
         readFromAnswersFile();
         try (BufferedReader readerFromConsol = new BufferedReader(new InputStreamReader(System.in))) {
             String userWord = readerFromConsol.readLine();
-            while (!userWord.equals(OUT)) {
-                if (userWord.equals(STOP)
-                        || userWord.equals(CONTINUE)) {
+            while (!OUT.equals(userWord)) {
+                if (STOP.equals(userWord)
+                        || CONTINUE.equals(userWord)) {
                     flag = !flag;
                 }
                 phrasesToLog.add("User: " + userWord + "\n");
