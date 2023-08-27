@@ -43,7 +43,7 @@ public class CSVReader {
                     resultColumns.append(cells[i]).append(delimiter);
                 }
             }
-            resultColumns = new StringBuilder(resultColumns.substring(0, resultColumns.length() - 1) + "\n");
+            resultColumns = new StringBuilder(resultColumns.substring(0, resultColumns.length() - 1) + System.lineSeparator());
         }
 
         if ("stdout".equals(out)) {
