@@ -35,6 +35,8 @@ public class CSVReader {
                 columnNumbers.add(String.valueOf(i));
             }
         }
+        headerScanner.close();
+
         var fileScanner = new Scanner(sourceFile);
         while (fileScanner.hasNextLine()) {
             String[] cells = fileScanner.nextLine().split(delimiter);
@@ -45,6 +47,7 @@ public class CSVReader {
             }
             resultColumns = new StringBuilder(resultColumns.substring(0, resultColumns.length() - 1) + System.lineSeparator());
         }
+        fileScanner.close();
 
         if ("stdout".equals(out)) {
             System.out.println(resultColumns);
