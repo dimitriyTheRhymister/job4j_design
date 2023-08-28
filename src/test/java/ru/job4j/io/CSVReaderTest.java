@@ -35,7 +35,7 @@ class CSVReaderTest {
         assertThat(Files.readString(target.toPath())).isEqualTo(expected);
     }
 
-  /*  @Test
+    @Test
     void whenFilterThreeColumns(@TempDir Path folder) throws Exception {
         String data = String.join(
                 System.lineSeparator(),
@@ -60,5 +60,5 @@ class CSVReaderTest {
         ).concat(System.lineSeparator());
         CSVReader.handle(argsName);
         assertThat(Files.readString(target.toPath())).isEqualTo(expected);
-    }*/
+    }
 }

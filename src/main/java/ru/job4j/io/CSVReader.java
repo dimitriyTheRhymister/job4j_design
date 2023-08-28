@@ -1,7 +1,6 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.nio.file.Path;
 import java.util.*;
 
 public class CSVReader {
@@ -22,17 +21,18 @@ public class CSVReader {
         var delimiter = argsName.get("delimiter");
         var out = argsName.get("out");
         var filter = argsName.get("filter");
-
-        Path sourceFilePath = Path.of(path);
-        File sourceFile = sourceFilePath.toFile();
-        var columnNumbers = new StringJoiner(" ");
+        String[] filterArr = filter.split(",");
+        int[] columnNumbersArr = new int[filterArr.length];
+        File sourceFile = new File(path);
         var resultColumns = new StringBuilder();
 
         var headerScanner = new Scanner(sourceFile);
         String[] headers = headerScanner.next().split(delimiter);
-        for (int i = 0; i < headers.length; i++) {
-            if (filter.contains(headers[i])) {
-                columnNumbers.add(String.valueOf(i));
+        for (int i = 0; i < filterArr.length; i++) {
+            for (int j = 0; j < headers.length; j++) {
+                if (Objects.equals(filterArr[i], headers[j])) {
+                    columnNumbersArr[i] = j;
+                }
             }
         }
         headerScanner.close();
@@ -40,9 +40,11 @@ public class CSVReader {
         var fileScanner = new Scanner(sourceFile);
         while (fileScanner.hasNextLine()) {
             String[] cells = fileScanner.nextLine().split(delimiter);
-            for (int i = 0; i < cells.length; i++) {
-                if (columnNumbers.toString().contains(String.valueOf(i))) {
-                    resultColumns.append(cells[i]).append(delimiter);
+            for (int columnNumber : columnNumbersArr) {
+                for (int j = 0; j < cells.length; j++) {
+                    if (columnNumber == j) {
+                        resultColumns.append(cells[j]).append(delimiter);
+                    }
                 }
             }
             resultColumns = new StringBuilder(resultColumns.substring(0, resultColumns.length() - 1) + System.lineSeparator());
@@ -52,8 +54,7 @@ public class CSVReader {
         if ("stdout".equals(out)) {
             System.out.println(resultColumns);
         } else {
-            Path targetFilePath = Path.of(out);
-            File targetFile = targetFilePath.toFile();
+            File targetFile = new File(out);
             try (FileOutputStream fileOutputStream = new FileOutputStream(targetFile)) {
                 fileOutputStream.write(resultColumns.toString().getBytes());
             }
