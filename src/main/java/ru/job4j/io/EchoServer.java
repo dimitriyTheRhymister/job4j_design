@@ -17,10 +17,8 @@ public class EchoServer {
                     if (line.contains("msg=Exit")) {
                         server.close();
                     } else if (line.contains("msg=Hello")) {
-                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                         out.write("Hello, dear friend.".getBytes());
                     } else {
-                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                         out.write(line.split(" ")[1].split("=")[1].getBytes());
                     }
                     out.flush();
