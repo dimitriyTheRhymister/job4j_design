@@ -17,9 +17,11 @@ public class EchoServer {
                     if (line.contains("msg=Exit")) {
                         server.close();
                     } else if (line.contains("msg=Hello")) {
-                        out.write("Hello, dear friend.".getBytes());
+                        out.write("Hello!".getBytes());
                     } else {
+                        out.write("What '".getBytes());
                         out.write(line.split(" ")[1].split("=")[1].getBytes());
+                        out.write("'?".getBytes());
                     }
                     out.flush();
                 }
