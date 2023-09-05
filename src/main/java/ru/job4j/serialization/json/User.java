@@ -3,6 +3,7 @@ package ru.job4j.serialization.json;
 import java.util.Arrays;
 
 public class User {
+
     private final boolean active;
     private final int id;
     private  final String nickname;

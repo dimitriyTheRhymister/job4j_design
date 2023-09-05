@@ -1,6 +1,7 @@
 package ru.job4j.serialization.json;
 
 public class UserContacts {
+
     private final String phone;
     private final String email;
 

@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<user active="true" id="33" nickname="Robin">
+    <userContacts phone="+7-111-11-11" email="user@mail.com"/>
+    <hobbies>
+        <hobby>skiing</hobby>
+        <hobby>games</hobby>
+        <hobby>travel</hobby>
+    </hobbies>
+</user>
