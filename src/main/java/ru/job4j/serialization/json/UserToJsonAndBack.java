@@ -26,13 +26,3 @@ public class UserToJsonAndBack {
         System.out.println(userBack);
     }
 }
-//{
-//        "active":true,
-//        "id":33,
-//        "nickname":"Robin",
-//        "userContacts":{
-//            "phone":"+7-111-11-11",
-//            "email":"user@mail.com"
-//        },
-//        "hobbies":["skiing","games","travel"]
-//}
