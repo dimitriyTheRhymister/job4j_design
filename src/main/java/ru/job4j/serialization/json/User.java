@@ -35,4 +35,16 @@ public class User {
         User user = new User(true, 33, "Robin", userContacts, hobbies);
         System.out.println(user);
     }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
 }
