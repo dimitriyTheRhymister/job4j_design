@@ -3,7 +3,6 @@ package ru.job4j.serialization.json;
 import java.util.Arrays;
 
 public class User {
-
     private final boolean active;
     private final int id;
     private  final String nickname;
@@ -36,7 +35,7 @@ public class User {
         System.out.println(user);
     }
 
-    public boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
@@ -46,5 +45,13 @@ public class User {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public UserContacts getUserContacts() {
+        return userContacts;
+    }
+
+    public String[] getHobbies() {
+        return hobbies;
     }
 }

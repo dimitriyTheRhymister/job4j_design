@@ -19,7 +19,7 @@ public class UserToJSONObjectToJsonString {
 
         final User user = new User(true, 33, "Robin", new UserContacts("+7-222-22-22", "noUser@mail.com"), new String[] {"skis", "dancing", "playing cards"});
         JSONObject userJsonObject = new JSONObject();
-        userJsonObject.put("active", user.getActive());
+        userJsonObject.put("active", user.isActive());
         userJsonObject.put("id", user.getId());
         userJsonObject.put("nickname", user.getNickname());
         userJsonObject.put("userContacts", jsonObjectUC);

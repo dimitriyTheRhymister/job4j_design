@@ -1,7 +1,6 @@
 package ru.job4j.serialization.json;
 
 public class UserContacts {
-
     private final String phone;
     private final String email;
 
@@ -16,6 +15,14 @@ public class UserContacts {
                 + "phone='" + phone + '\''
                 + ", email='" + email + '\''
                 + '}';
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public static void main(String[] args) {
