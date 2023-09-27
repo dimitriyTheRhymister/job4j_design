@@ -20,16 +20,16 @@ public class Search {
         }
     }
 
+    public static List<Path> search(Path start, Predicate<Path> condition) throws IOException {
+        SearchFiles searcher = new SearchFiles(condition);
+        Files.walkFileTree(start, searcher);
+        return searcher.getPaths();
+    }
+
     public static void main(String[] args) throws IOException {
         validation(args);
         Path start = Paths.get(args[0]);
         String extension = args[1];
         search(start, p -> p.toFile().getName().endsWith(extension)).forEach(System.out::println);
-    }
-
-    public static List<Path> search(Path start, Predicate<Path> condition) throws IOException {
-        SearchFiles searcher = new SearchFiles(condition);
-        Files.walkFileTree(start, searcher);
-        return searcher.getPaths();
     }
 }
