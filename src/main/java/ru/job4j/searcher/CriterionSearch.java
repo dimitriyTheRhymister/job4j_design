@@ -28,6 +28,7 @@ public class CriterionSearch {
     private String makePredicate(String searchPattern, String searchType) {
         if ("mask".equals(searchType)) {
             searchPattern = searchPattern
+                    .replace(".", "[.]")
                     .replace("?", "\\S")
                     .replace("*", "\\S*");
         }
