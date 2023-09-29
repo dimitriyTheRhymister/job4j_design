@@ -1,5 +1,8 @@
 package ru.job4j.searcher;
 
+import ru.job4j.io.ArgsName;
+import ru.job4j.io.Search;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.util.List;
@@ -22,6 +25,20 @@ public class CriterionSearch {
         }
     }
 
+    private String makePredicate(String searchPattern, String searchType) {
+        if ("mask".equals(searchType)) {
+            searchPattern = searchPattern
+                    .replace("?", "\\S")
+                    .replace("*", "\\S*");
+        }
+        return searchPattern;
+    }
+
+    private List<Path> searchFiles(File directory, String predicate) throws IOException {
+        System.out.println(predicate);
+        return Search.search(directory.toPath(), p -> p.toFile().getName().matches(predicate));
+    }
+
     private void writeSearchResultsToFile(Path path,  List<Path> pathList) {
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(path.toString(), true)));
@@ -30,7 +47,7 @@ public class CriterionSearch {
             }
             writer.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -45,18 +62,9 @@ public class CriterionSearch {
         String searchPattern = argsName.get("n");
         String searchType = argsName.get("t");
         Path path = Path.of(argsName.get("o"));
-        if ("mask".equals(searchType)) {
-            searchPattern = searchPattern.replace("?", "\\S");
-            searchPattern = searchPattern.replace("*", "\\S*");
-        }
-        String finalSearchPattern = searchPattern;
-        List<Path> pathList = Search.search(directory.toPath(), p -> p.toFile().getName().matches(finalSearchPattern));
+        String predicate = searcher.makePredicate(searchPattern, searchType);
+        List<Path> pathList = searcher.searchFiles(directory, predicate);
+        System.out.println(pathList);
         searcher.writeSearchResultsToFile(path, pathList);
     }
 }
-/*
-parameters for tests:
--d=C:/projects/job4j_design/data/a -n=404.txt -t=name -o=src/main/java/ru/job4j/searcher/log.txt
--d=C:/projects/job4j_design/data/a "-n=\S*\.\S{2,3}" -t=regex -o=src/main/java/ru/job4j/searcher/log.txt
---d=C:/projects/job4j_design/data/a -n=*.?s -t=mask -o=src/main/java/ru/job4j/searcher/log.txt
-*/
