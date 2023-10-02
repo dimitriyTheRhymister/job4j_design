@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CriterionSearch {
+public class CriterionSearchPortable {
     private final Map<String, String> argsMap = new HashMap<>();
 
     private String getValue(String key) {
@@ -104,7 +104,7 @@ public class CriterionSearch {
         if (args.length != 4) {
             throw new IllegalArgumentException("The required number of Arguments was not passed to the program");
         }
-        CriterionSearch searcher = new CriterionSearch();
+        CriterionSearchPortable searcher = new CriterionSearchPortable();
         searcher.parseArgs(args);
         File directory = new File(searcher.getValue("d"));
         String searchPattern = searcher.getValue("n");
