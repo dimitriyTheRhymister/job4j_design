@@ -31,3 +31,4 @@ insert into languages_countries_2(language_id, country_id) values (3, 2);
 select * from languages;
 select * from countries_2;
 select * from languages_countries_2;
+

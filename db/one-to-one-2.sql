@@ -18,3 +18,4 @@ insert into countries_4(country_name, capital_id) values ('USA', 2);
 select * from capitals_2;
 select * from countries_4;
 
+

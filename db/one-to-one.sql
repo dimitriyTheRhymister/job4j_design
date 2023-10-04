@@ -27,3 +27,4 @@ select * from capitals;
 select * from countries_3;
 select * from capitals_countries_3;
 
+
