@@ -6,11 +6,11 @@ create table continents(
 create table countries(
     id serial primary key,
     country_name varchar(255),
-    continents_id int references continents(id)
+    continent_id int references continents(id)
 );
 
 insert into continents(continent_name) values ('North America');
-insert into countries(country_name, continents_id) VALUES ('USA', 1);
+insert into countries(country_name, continent_id) VALUES ('USA', 1);
 
 select * from countries;
-select * from continents where id in (select continents_id from countries);
+select * from continents where id in (select continent_id from countries);

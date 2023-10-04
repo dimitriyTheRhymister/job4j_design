@@ -10,15 +10,15 @@
 
  create table capitals_countries_3(
      id serial primary key,
-     capital_id int references capitals(id),
-     country_id int references countries_3(id)
+     capital_id int references capitals(id) unique,
+     country_id int references countries_3(id) unique
  );
 
 insert into capitals(capital_name) values ('London');
-insert into capitals(capital_name) values ('Washington');
+insert into capitals(capital_name) values ('Mexico City');
 
 insert into countries_3(country_name) values ('Great Britain');
-insert into countries_3(country_name) values ('USA');
+insert into countries_3(country_name) values ('Mexico');
 
 insert into capitals_countries_3(capital_id, country_id) values (1, 1);
 insert into capitals_countries_3(capital_id, country_id) values (2, 2);
