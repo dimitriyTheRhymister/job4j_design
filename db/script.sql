@@ -1,6 +1,6 @@
 create table sovereigns(
     id serial primary key,
-    name varchar(255),
+    sovereign_name varchar(255),
     age int2,
     gender boolean,
     biography text
