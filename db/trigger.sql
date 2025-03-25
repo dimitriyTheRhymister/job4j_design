@@ -34,18 +34,11 @@ $$
 $$
 LANGUAGE 'plpgsql';
 
-create
-or replace function tax_row_before()
-    returns trigger as
-$$
-    BEGIN
-        update products
-        set price = price + price/2
-        where id = new.id;
-        return NEW;
-    END;
-$$
-LANGUAGE 'plpgsql';
+create trigger tax_row_before_trigger
+    before insert
+    on products
+    for each row
+    execute procedure tax_row_before();
 
 --#3
 create
