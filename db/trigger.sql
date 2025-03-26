@@ -26,9 +26,7 @@ or replace function tax_row_before()
     returns trigger as
 $$
     BEGIN
-        update products
-        set price = price + price/2
-        where id = new.id;
+        NEW.price = NEW.price + NEW.price/2;
         return NEW;
     END;
 $$
