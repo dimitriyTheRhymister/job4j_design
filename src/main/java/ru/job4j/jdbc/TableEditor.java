@@ -23,7 +23,7 @@ public class TableEditor implements AutoCloseable {
 
     private Connection createConnection() throws Exception {
         Properties config = new Properties();
-        try (InputStream in = TableEditorTest.class.getClassLoader().getResourceAsStream("app.properties")) {
+        try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream("app.properties")) {
             if (in == null) {
                 throw new FileNotFoundException("Property file 'app.properties' not found in the classpath");
             }
