@@ -7,7 +7,7 @@ import java.util.Properties;
 import java.util.StringJoiner;
 
 public class TableEditor implements AutoCloseable {
-    private Connection connection;
+    private static Connection connection;
 
     public TableEditor() {
         initConnection();
@@ -23,7 +23,7 @@ public class TableEditor implements AutoCloseable {
 
     private Connection createConnection() throws Exception {
         Properties config = new Properties();
-        try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream("app.properties")) {
+        try (InputStream in = TableEditorTest.class.getClassLoader().getResourceAsStream("app.properties")) {
             if (in == null) {
                 throw new FileNotFoundException("Property file 'app.properties' not found in the classpath");
             }
@@ -108,14 +108,14 @@ public class TableEditor implements AutoCloseable {
         }
     }
 
-    public String getTableScheme(String tableName) throws Exception {
+    public static String getTableScheme(String tableName) throws Exception {
         var rowSeparator = "-".repeat(30).concat(System.lineSeparator());
         var header = String.format("%-15s|%-15s%n", "NAME", "TYPE");
         var buffer = new StringJoiner(rowSeparator, rowSeparator, rowSeparator);
         buffer.add(header);
         try (var statement = connection.createStatement()) {
             var selection = statement.executeQuery(String.format(
-                    "SELECT * FROM %s LIMIT 1", tableName
+                    "SELECT * FROM %s", tableName
             ));
             var metaData = selection.getMetaData();
             for (int i = 1; i <= metaData.getColumnCount(); i++) {
@@ -137,15 +137,30 @@ public class TableEditor implements AutoCloseable {
     public static void main(String[] args) throws Exception {
         try (TableEditor tableEditor = new TableEditor()) {
             tableEditor.createTable("new_table");
-            String tableScheme = tableEditor.getTableScheme("new_table");
-            System.out.println(tableScheme);
-            tableEditor.addColumn("new_table", "new_column", "int");
+            System.out.println(getTableScheme("new_table"));
+
+            tableEditor.addColumn("new_table", "new_column", "NUMERIC");
+            System.out.println(getTableScheme("new_table"));
 
             tableEditor.renameColumn("new_table", "new_column", "new_column2");
+            System.out.println(getTableScheme("new_table"));
 
             tableEditor.dropColumn("new_table", "new_column2");
+            System.out.println(getTableScheme("new_table"));
 
             tableEditor.dropTable("new_table");
+            try (Statement statement = connection.createStatement()) {
+                String sql = "SELECT table_name "
+                        + "FROM information_schema.tables "
+                        + "WHERE table_schema = 'public'";
+                ResultSet resultSet = statement.executeQuery(sql);
+                while (resultSet.next()) {
+                    String tableName = resultSet.getString("table_name");
+                    System.out.println(tableName);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
