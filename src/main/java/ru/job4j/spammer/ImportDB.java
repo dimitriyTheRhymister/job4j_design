@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Properties;
 
 public class ImportDB {
@@ -24,13 +23,13 @@ public class ImportDB {
             reader.lines().forEach(line -> {
                 String[] parts = line.split(";");
                 if (parts.length == 2
-                        && !Objects.equals(parts[0], "")
-                        && !Objects.equals(parts[1], "")) {
+                        && !parts[0].isBlank()
+                        && !parts[1].isBlank()) {
                     String name = parts[0].trim();
                     String email = parts[1].trim();
                     users.add(new User(name, email));
                 } else {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Invalid line format: " + line);
                 }
             });
         }
