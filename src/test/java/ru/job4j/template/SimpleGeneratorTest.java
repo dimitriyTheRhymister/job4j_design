@@ -64,6 +64,7 @@ public class SimpleGeneratorTest {
 
     @Test
     public void whenExtraKeyInArgsThenThrowExceptionMessage() {
+
         Generator generator = new SimpleGenerator();
         String template = "Hello, ${name}!";
         Map<String, String> args = Map.of("name", "Petr", "age", "30");
