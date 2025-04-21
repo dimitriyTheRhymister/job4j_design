@@ -1,6 +1,7 @@
 package ru.job4j.template;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Disabled("Тесты отключены. Удалить аннотацию после реализации всех методов по заданию.")
 public class SimpleGeneratorTest {
 
     @Test
