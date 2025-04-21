@@ -35,3 +35,9 @@ public class YourTicket implements Ticket {
         return null;
     }
 }
+/* нарушение принципа SRP:
+    - booking(), getSession() и getSeats() - лучше вынести в отдельный SessionService
+ведь создание билета с его параметрами это одна сущность, а сеанс с его параметрами это другая сущность
+    - confirmPayment() - лучше вынести в отдельный PaymentService
+ведь создание билета с его параметрами это одно дело, а платёж - совсем другое
+ */

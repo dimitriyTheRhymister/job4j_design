@@ -20,3 +20,8 @@ public class YourAccount implements Account {
         return "";
     }
 }
+/* нарушение принципа SRP:
+    - register() - лучше вынести в отдельный RegisterService, а
+    - login() - лучше вынести в отдельный AuthService
+ведь могут появится новые виды аутентификащии и регистрации
+ */
