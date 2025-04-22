@@ -1,6 +1,7 @@
 package ru.job4j.ood.ocp;
 
 public class NotificationServiceNoGood4OCP {
+
           public void sendNotification(String message, String type) {
             if (type.equals("EMAIL")) {
                 System.out.println("Sending email: " + message);
