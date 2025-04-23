@@ -12,9 +12,9 @@ public class HRReportTest {
     @Test
     public void whenGenerateReportThenCorrectOutput() {
         MemoryStore store = new MemoryStore();
-        store.add(new Employee("John", null, null,50000));
-        store.add(new Employee("Alice", null, null,60000));
-        store.add(new Employee("Bob", null, null,40000));
+        store.add(new Employee("John", null, null, 50000));
+        store.add(new Employee("Alice", null, null, 60000));
+        store.add(new Employee("Bob", null, null, 40000));
 
         HRReport report = new HRReport(store);
         String result = report.generate(employee -> true);
@@ -29,9 +29,9 @@ public class HRReportTest {
     @Test
     public void whenGenerateReportWithFilterThenCorrectOutput() {
         MemoryStore store = new MemoryStore();
-        store.add(new Employee("John", null, null,50000));
-        store.add(new Employee("Alice", null, null,60000));
-        store.add(new Employee("Bob", null, null,40000));
+        store.add(new Employee("John", null, null, 50000));
+        store.add(new Employee("Alice", null, null, 60000));
+        store.add(new Employee("Bob", null, null, 40000));
 
         HRReport report = new HRReport(store);
         String result = report.generate(employee -> employee.getSalary() > 45000);
