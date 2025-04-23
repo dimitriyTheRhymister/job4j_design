@@ -1,26 +1,33 @@
 package ru.job4j.ood.srp.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Calendar;
 import java.util.Objects;
 
+@XmlRootElement(name = "employee")
+@XmlType(propOrder = {"name", "hired", "fired", "salary"})
 public class Employee {
     private String name;
     private Calendar hired;
     private Calendar fired;
     private double salary;
 
-    public Employee(String name, Calendar hired, Calendar fired, double salary) {
+    public Employee() { }
+
+    public Employee(
+            String name,
+            Calendar hired,
+            Calendar fired,
+            double salary) {
         this.name = name;
         this.hired = hired;
         this.fired = fired;
         this.salary = salary;
     }
 
-    public Employee(String name, double salary) {
-        this.name = name;
-        this.salary = salary;
-    }
-
+    @XmlElement
     public String getName() {
         return name;
     }
@@ -29,6 +36,7 @@ public class Employee {
         this.name = name;
     }
 
+    @XmlElement
     public Calendar getHired() {
         return hired;
     }
@@ -37,6 +45,7 @@ public class Employee {
         this.hired = hired;
     }
 
+    @XmlElement
     public Calendar getFired() {
         return fired;
     }
@@ -45,6 +54,7 @@ public class Employee {
         this.fired = fired;
     }
 
+    @XmlElement
     public double getSalary() {
         return salary;
     }
@@ -62,11 +72,20 @@ public class Employee {
             return false;
         }
         Employee employee = (Employee) o;
-        return Objects.equals(name, employee.name);
+        return Double.compare(
+                employee.salary,
+                salary) == 0
+                && Objects.equals(name, employee.name)
+                && Objects.equals(hired, employee.hired)
+                && Objects.equals(fired, employee.fired);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(
+                name,
+                hired,
+                fired,
+                salary);
     }
 }
