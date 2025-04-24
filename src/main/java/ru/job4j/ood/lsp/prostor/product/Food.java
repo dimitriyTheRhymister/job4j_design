@@ -2,8 +2,8 @@ package ru.job4j.ood.lsp.prostor.product;
 
 public abstract class Food {
     private double price;
-    private final int expiryDate; // срок годности в днях
-    private final int createDate; // дата создания продукта
+    private final int expiryDate;
+    private final int createDate;
 
     public Food(double price, int expiryDate, int createDate) {
         this.price = price;
