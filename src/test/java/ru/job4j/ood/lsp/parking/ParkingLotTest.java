@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled("Тесты отключены. Удалить аннотацию после реализации всех методов по заданию.")
+@Disabled("РўРµСЃС‚С‹ РѕС‚РєР»СЋС‡РµРЅС‹. РЈРґР°Р»РёС‚СЊ Р°РЅРЅРѕС‚Р°С†РёСЋ РїРѕСЃР»Рµ СЂРµР°Р»РёР·Р°С†РёРё РІСЃРµС… РјРµС‚РѕРґРѕРІ РїРѕ Р·Р°РґР°РЅРёСЋ.")
 public class ParkingLotTest {
 
     @Test
