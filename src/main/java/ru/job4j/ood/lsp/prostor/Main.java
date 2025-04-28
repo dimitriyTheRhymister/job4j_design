@@ -31,5 +31,9 @@ public class Main {
         nearlyExpiredFood.doSomethingSpecific();
         expiredFood.doSomethingSpecific();
         longTermFood.doSomethingSpecific();
+
+        System.out.println("------------------------------");
+
+        controlQuality.resort();
     }
 }

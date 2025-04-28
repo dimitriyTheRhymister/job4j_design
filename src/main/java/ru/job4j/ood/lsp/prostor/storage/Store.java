@@ -11,4 +11,6 @@ public interface Store {
     String getName();
 
     List<Food> getAllFood();
+
+    void clear();
 }

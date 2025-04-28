@@ -3,6 +3,7 @@ package ru.job4j.ood.lsp.prostor;
 import ru.job4j.ood.lsp.prostor.product.Food;
 import ru.job4j.ood.lsp.prostor.storage.Store;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ControlQuality {
@@ -26,6 +27,20 @@ public class ControlQuality {
                         + food.getPrice());
                 break;
             }
+        }
+    }
+
+    public void resort() {
+        List<Food> foods = new ArrayList<>();
+
+        for (Store store : stores) {
+            foods.addAll(store.getAllFood());
+            store.clear();
+            System.out.println("Хранилище " + store.getName() + " очищено.");
+        }
+
+        for (Food food : foods) {
+            distribute(food);
         }
     }
 }
