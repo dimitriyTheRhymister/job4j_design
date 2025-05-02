@@ -25,6 +25,6 @@ public class SmallestRangeFinderWithSetTest {
     public void whenNotFound() {
         int[] nums = {1, 2, 3, 3, 3};
         int k = 4;
-        assertThat(SmallestRangeFinder.findSmallestRange(nums, k)).isNull();
+        assertThat(SmallestRangeFinderWithSet.findSmallestRange(nums, k)).isNull();
     }
 }
