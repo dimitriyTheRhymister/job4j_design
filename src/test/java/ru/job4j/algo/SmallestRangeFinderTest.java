@@ -23,8 +23,8 @@ public class SmallestRangeFinderTest {
 
     @Test
     public void whenNotFound() {
-        int[] nums = {1,2,3,3,3};
-        int k =4;
+        int[] nums = {1, 2, 3, 3, 3};
+        int k = 4;
         assertThat(SmallestRangeFinder.findSmallestRange(nums, k)).isNull();
     }
 }
