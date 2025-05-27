@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 class MergeTest {
 
     @Test
-    void whenSortedThenOk(){
+    void whenSortedThenOk() {
         int[] array = {10, 4, 6, 4, 8, -13, 2, 3};
         assertThat(Merge.mergesort(array)).containsExactly(-13, 2, 3, 4, 4, 6, 8, 10);
     }
