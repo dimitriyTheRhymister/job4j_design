@@ -1,5 +1,7 @@
 package ru.job4j.collection;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -54,6 +56,15 @@ public class ForwardLinked<T> implements Iterable<T> {
         return deletedNodeValue;
     }
 
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    @NotNull
     @Override
     public Iterator<T> iterator() {
         return new Iterator<>() {
@@ -90,3 +101,9 @@ public class ForwardLinked<T> implements Iterable<T> {
         }
     }
 }
+/*
+* Класс ForwardLinked реализует односвязный список. Односвязный список
+* - это структура данных, в которой каждый элемент (называемый узлом)
+* содержит ссылку на следующий элемент в списке. Класс ForwardLinked
+* предоставляет методы для добавления элементов в начало и конец списка,
+* удаления первого элемента, а также итератор для прохода по списку.*/
