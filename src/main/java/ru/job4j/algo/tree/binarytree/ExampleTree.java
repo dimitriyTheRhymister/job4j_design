@@ -1,0 +1,31 @@
+package ru.job4j.algo.tree.binarytree;
+
+public class ExampleTree {
+
+    private final Node root = new Node(1,
+            new Node(2,
+                    new Node(4,
+                            new Node(8, new Node(16), new Node(17)),
+                            new Node(9, new Node(18), new Node(19))),
+                    new Node(5,
+                            new Node(10, new Node(20), new Node(21)),
+                            new Node(11, new Node(22), new Node(23))
+                    )
+            ),
+            new Node(3,
+                    new Node(6,
+                            new Node(12, new Node(24), new Node(25)),
+                            new Node(13, new Node(26), new Node(27))),
+                    new Node(7,
+                            new Node(14, new Node(28), new Node(29)),
+                            new Node(15, new Node(30), new Node(31)))
+            )
+    );
+
+    @Override
+    public String toString() {
+        return PrintTree.getTreeDisplay(root);
+    }
+
+}
+
