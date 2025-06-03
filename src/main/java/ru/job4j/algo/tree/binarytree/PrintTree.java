@@ -12,7 +12,7 @@ public class PrintTree {
         throw new IllegalStateException("Utility class");
     }
 
-    public static String getTreeDisplay(Node root) {
+    public static String getTreeDisplay(VisualNode root) {
         if (root == null) {
             return "";
         }
@@ -39,10 +39,10 @@ public class PrintTree {
         return buffer.toString();
     }
 
-    private static List<List<String>> buildTreeLines(Node root) {
+    private static List<List<String>> buildTreeLines(VisualNode root) {
         List<List<String>> lines = new ArrayList<>();
-        List<Node> level = new ArrayList<>();
-        List<Node> next = new ArrayList<>();
+        List<VisualNode> level = new ArrayList<>();
+        List<VisualNode> next = new ArrayList<>();
 
         level.add(root);
         int nodeCount = 1;
@@ -51,7 +51,7 @@ public class PrintTree {
             nodeCount = 0;
             List<String> line = new ArrayList<>();
 
-            for (Node node : level) {
+            for (VisualNode node : level) {
                 if (node == null) {
                     line.add(null);
                     next.add(null);
@@ -71,7 +71,7 @@ public class PrintTree {
             }
 
             lines.add(line);
-            List<Node> temp = level;
+            List<VisualNode> temp = level;
             level = next;
             next = temp;
             next.clear();
