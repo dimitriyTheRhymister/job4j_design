@@ -181,4 +181,57 @@ class BinarySearchTreeTest {
 
         assertFalse(bst.remove(5));
     }
+
+    @Test
+    public void testClear() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.put(5);
+        bst.put(3);
+        bst.put(7);
+        bst.put(2);
+        bst.put(4);
+        bst.put(6);
+        bst.put(8);
+
+        assertTrue(bst.contains(5));
+        assertTrue(bst.contains(3));
+        assertTrue(bst.contains(7));
+        assertTrue(bst.contains(2));
+        assertTrue(bst.contains(4));
+        assertTrue(bst.contains(6));
+        assertTrue(bst.contains(8));
+
+        bst.clear();
+
+        assertFalse(bst.contains(5));
+        assertFalse(bst.contains(3));
+        assertFalse(bst.contains(7));
+        assertFalse(bst.contains(2));
+        assertFalse(bst.contains(4));
+        assertFalse(bst.contains(6));
+        assertFalse(bst.contains(8));
+    }
+
+    @Test
+    public void testClearEmptyTree() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+
+        bst.clear();
+
+        assertTrue(bst.isEmpty());
+    }
+
+    @Test
+    public void testClearTreeWithOneElement() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.put(5);
+
+        assertFalse(bst.isEmpty());
+        assertTrue(bst.contains(5));
+
+        bst.clear();
+
+        assertTrue(bst.isEmpty());
+        assertFalse(bst.contains(5));
+    }
 }

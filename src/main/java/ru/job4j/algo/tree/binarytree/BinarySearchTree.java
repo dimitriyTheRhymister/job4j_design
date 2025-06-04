@@ -197,9 +197,26 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return node;
     }
 
+    public void clear() {
+        clear(root);
+        root = null;
+    }
+
+    private void clear(Node node) {
+        if (node != null) {
+            clear(node.left);
+            clear(node.right);
+            clearNode(node);
+        }
+    }
+
     @Override
     public String toString() {
         return PrintTree.getTreeDisplay(root);
+    }
+
+    public boolean isEmpty() {
+        return null == root;
     }
 
     private class Node implements VisualNode {
@@ -237,5 +254,8 @@ public class BinarySearchTree<T extends Comparable<T>> {
         System.out.println(bst.remove(10));
         System.out.println("После удаления узла 10 :");
         System.out.println(bst);
+
+        bst.clear();
+        System.out.println(bst.root == null);
     }
 }
