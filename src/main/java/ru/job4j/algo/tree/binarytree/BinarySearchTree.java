@@ -54,8 +54,83 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     public boolean remove(T key) {
-        /* Метод будет реализован в следующих уроках */
-        return false;
+        boolean result = false;
+        if (Objects.nonNull(key) && Objects.nonNull(root)) {
+            result = remove(root, key);
+        }
+        return result;
+    }
+
+    private boolean remove(Node source, T key) {
+        boolean result = true;
+        Node current = source;
+        Node parent = source;
+        boolean isLeft = true;
+        while (result && current != null && !Objects.equals(current.key, key)) {
+            parent = current;
+            int cmp = key.compareTo(current.key);
+            isLeft = cmp < 0;
+            current = isLeft ? current.left : current.right;
+            if (current == null) {
+                result = false;
+            }
+        }
+        if (result) {
+            assert current != null;
+            Node replacement = getReplacement(current);
+            swap(isLeft, source, parent, current, replacement);
+            if (replacement != null) {
+                replacement.left = current.left;
+                if (replacement != current.right) {
+                    replacement.right = current.right;
+                }
+            }
+            clearNode(current);
+        }
+        return result;
+    }
+
+    private Node getReplacement(Node node) {
+        if (node.left == null) {
+            return node.right;
+        } else if (node.right == null) {
+            return node.left;
+        } else {
+            return getHeir(node);
+        }
+    }
+
+    private void clearNode(Node node) {
+        /*System.out.println("Очищается узел: " + node.key);*/
+        node.key = null;
+        node.left = null;
+        node.right = null;
+    }
+
+    private void swap(boolean isLeft, Node source, Node parent, Node current, Node equal) {
+        if (Objects.equals(current, source)) {
+            root = equal;
+        } else if (isLeft) {
+            parent.left = equal;
+        } else {
+            parent.right = equal;
+        }
+    }
+
+    private Node getHeir(Node deletedNode) {
+        Node nodeParent = deletedNode;
+        Node node = deletedNode;
+        Node current = deletedNode.right;
+        while (current != null) {
+            nodeParent = node;
+            node = current;
+            current = current.left;
+        }
+        if (node != deletedNode.right) {
+            nodeParent.left = node.right;
+            node.right = deletedNode.right;
+        }
+        return node;
     }
 
     public List<T> inSymmetricalOrder() {
@@ -128,7 +203,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     private class Node implements VisualNode {
-        private final T key;
+        private T key;
         private Node left;
         private Node right;
 
@@ -150,5 +225,17 @@ public class BinarySearchTree<T extends Comparable<T>> {
         public String getText() {
             return key.toString();
         }
+    }
+
+    public static void main(String[] args) {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        int[] array = new int[]{2, 1, 10, 6, 14, 4, 8, 12, 16, 11, 9, 13, 15, 17, 3, 5, 7};
+        for (int i : array) {
+            bst.put(i);
+        }
+        System.out.println(bst);
+        System.out.println(bst.remove(10));
+        System.out.println("После удаления узла 10 :");
+        System.out.println(bst);
     }
 }

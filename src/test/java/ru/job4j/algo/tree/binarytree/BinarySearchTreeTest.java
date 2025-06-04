@@ -3,6 +3,8 @@ package ru.job4j.algo.tree.binarytree;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BinarySearchTreeTest {
     @Test
@@ -62,7 +64,7 @@ class BinarySearchTreeTest {
     @Test
     void whenAddMinimumIsNotEndThenOk() {
         BinarySearchTree<Integer> tree = new BinarySearchTree<>();
-        for (int element : new int[]{4, 2, 6, 3, 5, 7 }) {
+        for (int element : new int[]{4, 2, 6, 3, 5, 7}) {
             tree.put(element);
         }
         assertThat(tree.minimum()).isEqualTo(2);
@@ -96,5 +98,87 @@ class BinarySearchTreeTest {
         }
         assertThat(tree.inPostOrder()).hasSize(7)
                 .containsExactly(1, 3, 2, 5, 7, 6, 4);
+    }
+
+    @Test
+    public void testRemoveLeafNode() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.put(5);
+        bst.put(3);
+        bst.put(7);
+        bst.put(2);
+        bst.put(4);
+        bst.put(8);
+
+        assertTrue(bst.remove(2));
+        assertFalse(bst.contains(2));
+    }
+
+    @Test
+    public void testRemoveNodeWithOneChild() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.put(5);
+        bst.put(3);
+        bst.put(7);
+        bst.put(2);
+        bst.put(4);
+        bst.put(8);
+
+        assertTrue(bst.remove(7));
+        assertFalse(bst.contains(7));
+        assertTrue(bst.contains(8));
+    }
+
+    @Test
+    public void testRemoveNodeWithTwoChildren() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.put(5);
+        bst.put(3);
+        bst.put(7);
+        bst.put(2);
+        bst.put(4);
+        bst.put(6);
+        bst.put(8);
+
+        assertTrue(bst.remove(7));
+        assertFalse(bst.contains(7));
+        assertTrue(bst.contains(6));
+        assertTrue(bst.contains(8));
+    }
+
+    @Test
+    public void testRemoveRootNode() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.put(5);
+        bst.put(3);
+        bst.put(7);
+        bst.put(2);
+        bst.put(4);
+        bst.put(6);
+        bst.put(8);
+
+        assertTrue(bst.remove(5));
+        assertFalse(bst.contains(5));
+    }
+
+    @Test
+    public void testRemoveNonExistingNode() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.put(5);
+        bst.put(3);
+        bst.put(7);
+        bst.put(2);
+        bst.put(4);
+        bst.put(6);
+        bst.put(8);
+
+        assertFalse(bst.remove(9));
+    }
+
+    @Test
+    public void testRemoveFromEmptyTree() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+
+        assertFalse(bst.remove(5));
     }
 }
